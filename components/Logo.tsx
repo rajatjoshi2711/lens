@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef } from "react";
 import {
   ADMIN_CLICK_COUNT,
@@ -13,8 +14,8 @@ type LogoProps = {
 };
 
 /**
- * Text wordmark placeholder. Replace with the official logo file from
- * public/logo/ once supplied; do not draw a stand-in mark.
+ * The supplied Talent Muscle lockup (raster, includes "An EmergeFlow Company").
+ * Never recolour, stretch, crop, or redraw it.
  */
 export function Logo({ onSecretTrigger }: LogoProps) {
   const burst = useRef(createClickBurst(ADMIN_CLICK_COUNT, ADMIN_CLICK_WINDOW_MS));
@@ -23,13 +24,19 @@ export function Logo({ onSecretTrigger }: LogoProps) {
     <button
       type="button"
       className="logo-button"
-      aria-label="Lens home"
+      aria-label="Talent Muscle, an EmergeFlow company"
       onClick={() => {
         if (burst.current.click(Date.now())) onSecretTrigger?.();
       }}
     >
-      <span className="logo-wordmark">
-        Lens <span>by Talent Muscle</span>
+      <span className="logo-lockup">
+        <Image
+          src="/brand/logo-horizontal.png"
+          alt=""
+          width={1319}
+          height={465}
+          priority
+        />
       </span>
     </button>
   );

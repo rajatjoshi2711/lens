@@ -1,6 +1,7 @@
 "use client";
 
-import { FileText, Upload } from "lucide-react";
+import { CircleAlert, FileText, Upload } from "lucide-react";
+import Link from "next/link";
 import { useRef, useState } from "react";
 import { ACCEPT_ATTRIBUTE, checkResumeFile, MAX_RESUME_MB } from "@/lib/resume-file";
 
@@ -22,17 +23,24 @@ export function ResumeDropzone() {
 
   return (
     <form
-      className="ef-card upload-card"
+      className="tm-card upload-card"
+      aria-labelledby="upload-title"
       onSubmit={(e) => {
         e.preventDefault();
       }}
     >
+      <h2 id="upload-title" className="upload-card-title">
+        Upload your resume
+      </h2>
+
       <div
         className="dropzone"
         role="button"
         tabIndex={0}
         data-dragging={dragging}
-        aria-label="Choose a resume file"
+        data-has-file={!!file}
+        aria-label={file ? `Selected ${file.name}. Choose a different file` : "Choose a resume file"}
+        aria-describedby="dropzone-limit"
         onClick={() => inputRef.current?.click()}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -52,25 +60,20 @@ export function ResumeDropzone() {
         }}
       >
         <span className="dropzone-icon">
-          <Upload size={24} strokeWidth={1.5} />
+          {file ? <FileText size={20} strokeWidth={1.5} /> : <Upload size={20} strokeWidth={1.5} />}
         </span>
         {file ? (
-          <span className="dropzone-file">
-            <FileText size={20} strokeWidth={1.5} />
-            {file.name}
-          </span>
+          <>
+            <span className="dropzone-file">{file.name}</span>
+            <span className="dropzone-hint">Click to choose a different file</span>
+          </>
         ) : (
           <>
-            <p className="ef-subhead">Drop your resume here</p>
-            <p className="ef-small" style={{ color: "var(--text-secondary)" }}>
-              PDF or DOCX, up to {MAX_RESUME_MB} MB. Or click to browse.
-            </p>
+            <span className="dropzone-title">Drop your resume here, or click to browse</span>
+            <span id="dropzone-limit" className="dropzone-hint">
+              <strong>PDF or DOCX</strong>, up to <strong>{MAX_RESUME_MB} MB</strong>
+            </span>
           </>
-        )}
-        {error && (
-          <p className="dropzone-error" role="alert">
-            {error}
-          </p>
         )}
         <input
           ref={inputRef}
@@ -81,23 +84,36 @@ export function ResumeDropzone() {
         />
       </div>
 
-      <div className="field">
-        <label htmlFor="target-role">Target role (optional)</label>
+      {error && (
+        <p className="dropzone-error" role="alert">
+          <CircleAlert size={16} strokeWidth={1.5} aria-hidden="true" />
+          {error}
+        </p>
+      )}
+
+      <div className="tm-field">
+        <label htmlFor="target-role">Role you are aiming for</label>
         <input
           id="target-role"
           name="targetRole"
           type="text"
+          className="tm-input"
           placeholder="For example, product manager"
           maxLength={120}
         />
+        <span className="tm-field-hint">Optional. Helps us tailor the advice.</span>
       </div>
 
-      <button type="submit" className="ef-btn ef-btn-primary btn-block" disabled={!file}>
+      <button
+        type="submit"
+        className="tm-btn tm-btn-primary tm-btn-lg tm-btn-block is-elevated"
+        disabled={!file}
+      >
         Review my resume
       </button>
       <p className="consent">
-        By uploading, you agree Talent Muscle stores your resume. See our{" "}
-        <a href="/privacy">privacy notice</a>.
+        By uploading, you agree Talent Muscle stores your resume. Read the{" "}
+        <Link href="/privacy">privacy notice</Link>.
       </p>
     </form>
   );

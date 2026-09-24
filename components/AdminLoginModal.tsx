@@ -25,7 +25,7 @@ export function AdminLoginModal({ open, onClose }: AdminLoginModalProps) {
   return (
     <dialog
       ref={ref}
-      className="modal"
+      className="tm-dialog"
       aria-labelledby="admin-login-title"
       onClose={onClose}
       onClick={(e) => {
@@ -34,56 +34,54 @@ export function AdminLoginModal({ open, onClose }: AdminLoginModalProps) {
       }}
     >
       <form
-        className="modal-body"
+        className="tm-dialog-body"
         onSubmit={(e) => {
           e.preventDefault();
         }}
       >
-        <div className="modal-head">
+        <div className="tm-dialog-head">
           <div>
-            <p className="ef-eyebrow">Admin</p>
-            <h2 id="admin-login-title" className="ef-h3">
+            <p className="tm-eyebrow">Lens admin</p>
+            <h2 id="admin-login-title" className="tm-dialog-title">
               Sign in
             </h2>
+            <p className="tm-dialog-desc">For the Talent Muscle team.</p>
           </div>
-          <button
-            type="button"
-            className="icon-button"
-            aria-label="Close"
-            onClick={onClose}
-          >
+          <button type="button" className="tm-icon-btn" aria-label="Close" onClick={onClose}>
             <X size={20} strokeWidth={1.5} />
           </button>
         </div>
 
-        <div className="field">
-          <label htmlFor="admin-email">Email</label>
+        <div className="tm-field">
+          <label htmlFor="admin-email">Work email</label>
           <input
             id="admin-email"
             name="email"
             type="email"
+            className="tm-input"
             autoComplete="username"
             required
           />
         </div>
-        <div className="field">
+        <div className="tm-field">
           <label htmlFor="admin-password">Password</label>
           <input
             id="admin-password"
             name="password"
             type="password"
+            className="tm-input"
             autoComplete="current-password"
             required
           />
         </div>
 
-        <p className="notice">Admin sign-in is not connected yet.</p>
+        <p className="tm-notice">Admin sign-in is not connected yet.</p>
 
-        <button type="submit" className="ef-btn ef-btn-primary btn-block" disabled>
+        <button type="submit" className="tm-btn tm-btn-primary tm-btn-lg tm-btn-block" disabled>
           Sign in
         </button>
-        <button type="button" className="ef-btn ef-btn-text" disabled>
-          Forgot password?
+        <button type="button" className="tm-btn tm-btn-link" style={{ alignSelf: "center" }} disabled>
+          Forgot your password?
         </button>
       </form>
     </dialog>

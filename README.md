@@ -2,7 +2,7 @@
 
 Lens, by Talent Muscle. Candidates upload a resume, see a free teaser score, sign in with Google, and get one AI-generated set of recommendations. Admins (hidden entry: click the logo 8 times) can see every upload and download resumes stored in SharePoint.
 
-**Stack:** Next.js 16 (App Router) on Vercel, Neon Postgres, Better Auth (Google for candidates, email + password for admins), Resend, Microsoft Graph (SharePoint), Groq, Cloudflare Turnstile. UI follows the EmergeFlow design system (`styles/emergeflow.css`).
+**Stack:** Next.js 16 (App Router) on Vercel, Neon Postgres, Better Auth (Google for candidates, email + password for admins), Resend, Microsoft Graph (SharePoint), Groq, Cloudflare Turnstile. UI follows the Talent Muscle design system, an EmergeFlow company sub-brand (`styles/talent-muscle.css`).
 
 ## Getting started
 
@@ -32,8 +32,11 @@ Open http://localhost:3000. The landing page runs without any keys; features tha
 - `app/api/auth/[...all]/` Better Auth endpoints
 - `db/migrations/` database schema
 - `scripts/` migration runner and admin seed
-- `styles/emergeflow.css` design tokens
+- `styles/talent-muscle.css` design tokens
+- `public/brand/` supplied logo lockups (raster; never recolour or redraw)
 
-## Logo
+## Brand notes
 
-The header shows a text wordmark placeholder. Put the official logo files in `public/logo/` and swap them into `components/Logo.tsx`.
+- Orange (`--surface-accent`) is for actions only; blue carries structure.
+- The header lockup must stay at least 140px wide (50px tall).
+- Sora and Manrope stand in for the unsupplied brand fonts; Lucide stands in for an unsupplied icon set.
