@@ -1,49 +1,319 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* App-level styles. Design tokens live in styles/emergeflow.css. */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  min-height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
+h1,
+h2,
+h3,
+p {
   margin: 0;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+  color: var(--blue-500);
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+:focus-visible {
+  outline: 2px solid var(--blue-400);
+  outline-offset: 2px;
+}
+
+/* --- Top nav (the only fixed element) --- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.logo-button:focus-visible {
+  outline: none;
+}
+
+/* Placeholder wordmark until the official logo file is supplied. */
+.logo-wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-subhead);
+  color: var(--blue-500);
+  letter-spacing: -0.01em;
+}
+
+.logo-wordmark span {
+  margin-left: 4px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--fs-small);
+  letter-spacing: 0;
+  color: var(--text-secondary);
+}
+
+/* --- Landing --- */
+.landing {
+  flex: 1;
+  padding-block: 72px 96px;
+}
+
+.landing-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.landing-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.landing-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-section);
+  line-height: var(--lh-section);
+  letter-spacing: -0.02em;
+}
+
+.landing-points {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.landing-points li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--neutral-700);
+}
+
+.landing-points svg {
+  color: var(--blue-500);
+  flex-shrink: 0;
+}
+
+/* --- Dropzone --- */
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 300px;
+  padding: 40px 24px;
+  text-align: center;
+  background: var(--neutral-25);
+  border: 1.5px dashed var(--blue-200);
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  transition: border-color var(--dur-2) var(--ease-out),
+    background var(--dur-2) var(--ease-out);
+}
+
+.dropzone:hover,
+.dropzone[data-dragging="true"] {
+  border-color: var(--blue-500);
+  background: var(--blue-50);
+}
+
+.dropzone-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--blue-500);
+  box-shadow: var(--shadow-sm);
+}
+
+.dropzone-file {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+.dropzone-error {
+  color: var(--danger);
+  font-size: var(--fs-small);
+}
+
+.upload-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.upload-card:hover {
+  transform: none;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.field label {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--neutral-800);
+}
+
+.field input {
+  font: inherit;
+  font-size: var(--fs-small);
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-button);
+  color: var(--text-primary);
+  background: #fff;
+  transition: border-color var(--dur-2) var(--ease-out);
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--blue-500);
+  box-shadow: 0 0 0 3px var(--blue-50);
+}
+
+.ef-btn-text:disabled {
+  background: transparent;
+  color: var(--neutral-400);
+}
+
+.btn-block {
+  width: 100%;
+  padding-block: 12px;
+  font-size: var(--fs-body);
+}
+
+.consent {
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* --- Footer --- */
+.site-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding-block: 24px;
+  color: var(--text-secondary);
+  font-size: var(--fs-caption);
+}
+
+/* --- Modal (admin login) --- */
+.modal {
+  width: min(420px, calc(100vw - 32px));
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-lg);
+  color: var(--text-primary);
+}
+
+.modal::backdrop {
+  background: rgba(17, 25, 40, 0.45);
+}
+
+.modal[open] {
+  animation: ef-rise var(--dur-3) var(--ease-out) both;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+}
+
+.modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-button);
+  background: transparent;
+  color: var(--neutral-600);
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: var(--neutral-50);
+}
+
+.notice {
+  padding: 10px 12px;
+  border-radius: var(--radius-button);
+  background: var(--info-soft);
+  color: var(--blue-700);
+  font-size: var(--fs-small);
+}
+
+@media (max-width: 880px) {
+  .landing {
+    padding-block: 40px 64px;
+  }
+  .landing-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .landing-title {
+    font-size: var(--fs-page);
+    line-height: var(--lh-page);
   }
 }

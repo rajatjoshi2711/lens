@@ -1,0 +1,230 @@
+/* ==========================================================================
+   EmergeFlow Design System - colors_and_type.css
+   Source of truth for color, type, radius, shadow, and motion tokens.
+   Import this into any web or HTML deliverable instead of retyping values.
+   ========================================================================== */
+
+
+:root {
+  /* --- Brand blue (primary, the workhorse) --- */
+  --blue-50:  #EAF2FB;
+  --blue-100: #CCDDF1;
+  --blue-200: #99BBE3;
+  --blue-300: #6699D5;
+  --blue-400: #3377C7;
+  --blue-500: #0D519B; /* EmergeFlow Blue */
+  --blue-600: #0A4280;
+  --blue-700: #083464;
+  --blue-800: #062649;
+  --blue-900: #04182E;
+
+  /* --- Brand green (accent / highlight, never a primary CTA) --- */
+  --green-50:  #F1F8E7;
+  --green-100: #DFEEC4;
+  --green-200: #C0DD8E;
+  --green-300: #A1CC58;
+  --green-400: #8DC340;
+  --green-500: #78B833; /* EmergeFlow Green */
+  --green-600: #5F9226;
+  --green-700: #496F1D;
+  --green-800: #335015;
+  --green-900: #1F320C;
+
+  /* --- Cool neutrals (slight blue undertone, no warm beige / pure grey) --- */
+  --neutral-25:  #FAFBFC;
+  --neutral-50:  #F4F6F8;
+  --neutral-100: #E8ECF1;
+  --neutral-200: #D2DAE3;
+  --neutral-300: #B0BBC9;
+  --neutral-400: #8896A8;
+  --neutral-500: #5D6E84;
+  --neutral-600: #44546A;
+  --neutral-700: #2F3D52;
+  --neutral-800: #1E2A3D;
+  --neutral-900: #111928; /* replaces pure black */
+
+  /* --- Semantic (status only, never decorative) --- */
+  --success: #78B833;
+  --warning: #E0A012;
+  --danger:  #D7373F;
+  --info:    #0D519B;
+  /* paired soft backgrounds for tags and callouts */
+  --success-soft: #F1F8E7;
+  --warning-soft: #FBF1DC;
+  --danger-soft:  #FBE9EA;
+  --info-soft:    #EAF2FB;
+
+  /* --- Common roles --- */
+  --text-primary:   var(--neutral-900);
+  --text-secondary: var(--neutral-600);
+  --bg-page:        #FFFFFF;
+  --bg-subtle:      var(--neutral-25);
+  --border:         var(--neutral-200);
+  --border-subtle:  var(--neutral-100);
+
+  /* --- Gradients (once per surface, max; never under body text) --- */
+  --grad-brand: linear-gradient(135deg, #0D519B 0%, #2A78C2 55%, #78B833 100%);
+  --grad-deep:  linear-gradient(180deg, #062649 0%, #0A4280 100%);
+  --grad-brand-soft: linear-gradient(135deg, #EAF2FB 0%, #F1F8E7 100%);
+
+  /* --- Type families --- */
+  --font-display: var(--font-sora), system-ui, sans-serif;     /* headlines, big numbers */
+  --font-body:    var(--font-manrope), system-ui, sans-serif;  /* body, UI */
+  --font-mono:    var(--font-jetbrains), ui-monospace, monospace; /* code, numbers, API */
+
+  /* --- Type scale (size / line-height). Pick from the scale, do not invent. --- */
+  --fs-hero:     72px; --lh-hero:     1.05; /* Sora, hero display */
+  --fs-section:  48px; --lh-section:  1.1;  /* Sora, section title */
+  --fs-page:     36px; --lh-page:     1.15; /* Sora, page title */
+  --fs-h3:       24px; --lh-h3:       1.25; /* Sora, heading */
+  --fs-lead:     20px; --lh-lead:     1.4;  /* Manrope, lead paragraph (secondary color) */
+  --fs-subhead:  18px; --lh-subhead:  1.5;  /* Manrope, sub-heading */
+  --fs-body:     16px; --lh-body:     1.5;  /* Manrope, body (workhorse) */
+  --fs-small:    14px; --lh-small:    1.5;  /* Manrope, UI / table / helper */
+  --fs-caption:  12px; --lh-caption:  1.4;  /* Manrope, caption / meta */
+  --fs-eyebrow:  12px; --lh-eyebrow:  1.4;  /* Manrope, ALL CAPS, tracked */
+  --tracking-eyebrow: 0.12em;
+
+  /* --- Radii (never mix inside one component) --- */
+  --radius-button: 10px;
+  --radius-card:   14px;
+  --radius-hero:   24px; /* allowed range 20px to 28px */
+
+  /* --- Shadows (cool-tinted on blue, never grey-black) --- */
+  --shadow-sm: 0 1px 2px rgba(13, 81, 155, 0.08);
+  --shadow-md: 0 4px 12px rgba(13, 81, 155, 0.10);
+  --shadow-lg: 0 12px 32px rgba(13, 81, 155, 0.14);
+
+  /* --- Motion --- */
+  --dur-1: 120ms;
+  --dur-2: 180ms; /* most state changes */
+  --dur-3: 240ms;
+  --dur-4: 360ms;
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* --- Layout --- */
+  --max-marketing: 1120px;
+  --max-product:   1280px;
+}
+
+/* ==========================================================================
+   Base typography
+   ========================================================================== */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--text-primary);
+  background: var(--bg-page);
+}
+
+.ef-hero    { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-hero);    line-height: var(--lh-hero); }
+.ef-section { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-section); line-height: var(--lh-section); }
+.ef-page    { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-page);    line-height: var(--lh-page); }
+.ef-h3      { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3);      line-height: var(--lh-h3); }
+.ef-lead    { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--text-secondary); }
+.ef-subhead { font-family: var(--font-body); font-weight: 600; font-size: var(--fs-subhead); line-height: var(--lh-subhead); }
+.ef-body    { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-body); line-height: var(--lh-body); }
+.ef-small   { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-small); line-height: var(--lh-small); }
+.ef-caption { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--text-secondary); }
+.ef-eyebrow {
+  font-family: var(--font-body); font-weight: 700;
+  font-size: var(--fs-eyebrow); line-height: var(--lh-eyebrow);
+  text-transform: uppercase; letter-spacing: var(--tracking-eyebrow);
+  color: var(--blue-500);
+}
+/* one word of green emphasis inside a headline */
+.ef-accent { color: var(--green-500); }
+
+/* ==========================================================================
+   Buttons (sentence case labels, no trailing period; green is never primary)
+   ========================================================================== */
+.ef-btn {
+  font-family: var(--font-body); font-weight: 600; font-size: var(--fs-small);
+  border-radius: var(--radius-button);
+  padding: 10px 18px; border: 1px solid transparent; cursor: pointer;
+  transition: background var(--dur-2) var(--ease-out),
+              transform var(--dur-1) var(--ease-out),
+              border-color var(--dur-2) var(--ease-out);
+}
+.ef-btn:active { transform: translateY(1px); }
+
+.ef-btn-primary   { background: var(--blue-500); color: #fff; }
+.ef-btn-primary:hover { background: var(--blue-600); }
+
+.ef-btn-secondary { background: #fff; color: var(--blue-500); border-color: var(--blue-500); }
+.ef-btn-secondary:hover { background: var(--blue-50); }
+
+.ef-btn-text      { background: transparent; color: var(--blue-500); padding-left: 4px; padding-right: 4px; }
+.ef-btn-text:hover { text-decoration: underline; }
+
+.ef-btn-danger    { background: var(--danger); color: #fff; }
+.ef-btn-danger:hover { background: #BE2D34; }
+
+.ef-btn:disabled, .ef-btn-disabled {
+  background: var(--blue-200); color: #fff; cursor: not-allowed; transform: none;
+}
+
+/* ==========================================================================
+   Badges and status (status only; small soft tints)
+   ========================================================================== */
+.ef-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-body); font-weight: 600; font-size: var(--fs-caption);
+  padding: 3px 10px; border-radius: 999px;
+}
+.ef-badge-info    { background: var(--info-soft); color: var(--info); }
+.ef-badge-success { background: var(--success-soft); color: var(--green-700); }
+.ef-badge-warning { background: var(--warning-soft); color: #9A6C0C; }
+.ef-badge-danger  { background: var(--danger-soft); color: var(--danger); }
+.ef-badge-neutral { background: var(--neutral-100); color: var(--neutral-700); }
+.ef-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+.ef-card {
+  background: #fff; border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card); padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.ef-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+/* gradient stat card: one big number, white text, gradient fill (use sparingly) */
+.ef-card-stat {
+  background: var(--grad-brand); color: #fff;
+  border-radius: var(--radius-card); padding: 28px; border: none;
+}
+.ef-card-stat .ef-stat-number {
+  font-family: var(--font-display); font-weight: 800; font-size: var(--fs-section);
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Hero panel
+   ========================================================================== */
+.ef-hero-panel {
+  background: var(--grad-deep); color: #fff;
+  border-radius: var(--radius-hero); padding: 56px;
+}
+
+/* ==========================================================================
+   Layout helpers
+   ========================================================================== */
+.ef-container-marketing { max-width: var(--max-marketing); margin-inline: auto; padding-inline: 24px; }
+.ef-container-product   { max-width: var(--max-product);   margin-inline: auto; padding-inline: 24px; }
+
+/* ==========================================================================
+   Entrance animation (fade-and-rise). Stagger children 40-60ms, max 6.
+   ========================================================================== */
+@keyframes ef-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ef-rise { animation: ef-rise var(--dur-3) var(--ease-out) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

@@ -1,69 +1,47 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { CircleCheck } from "lucide-react";
+import { ResumeDropzone } from "@/components/ResumeDropzone";
+import { SiteHeader } from "@/components/SiteHeader";
+
+const points = [
+  "Specific rewrites for your weakest bullet points",
+  "ATS checks that catch formatting that gets resumes filtered out",
+  "Results in under a minute, sign in with Google to unlock",
+];
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+    <>
+      <SiteHeader />
+      <main className="landing">
+        <div className="ef-container-marketing landing-grid">
+          <section className="landing-copy ef-rise">
+            <p className="ef-eyebrow">Free resume review</p>
+            <h1 className="landing-title">
+              Get your resume <span className="ef-accent">noticed</span>
+            </h1>
+            <p className="ef-lead">
+              Upload your resume and get clear, line-by-line recommendations on
+              what to fix first.
+            </p>
+            <ul className="landing-points">
+              {points.map((p) => (
+                <li key={p}>
+                  <CircleCheck size={20} strokeWidth={1.5} />
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </section>
+          <section className="ef-rise" style={{ animationDelay: "60ms" }}>
+            <ResumeDropzone />
+          </section>
         </div>
       </main>
-    </div>
+      <footer className="site-footer">
+        <div className="ef-container-marketing">
+          Lens by Talent Muscle, an EmergeFlow company
+        </div>
+      </footer>
+    </>
   );
 }
