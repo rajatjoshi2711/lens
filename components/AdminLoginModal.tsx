@@ -10,7 +10,7 @@ type AdminLoginModalProps = {
 
 /**
  * Admin sign-in dialog opened from the hidden logo trigger.
- * Phase 5 connects this form to Supabase email + password auth.
+ * Phase 5 connects this form to Better Auth email + password sign-in.
  */
 export function AdminLoginModal({ open, onClose }: AdminLoginModalProps) {
   const ref = useRef<HTMLDialogElement>(null);

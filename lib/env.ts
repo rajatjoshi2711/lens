@@ -6,10 +6,19 @@ import { z } from "zod";
  * only breaks the feature that needs it, with a clear error message.
  */
 const groups = {
-  supabase: z.object({
-    NEXT_PUBLIC_SUPABASE_URL: z.url(),
-    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string().min(1),
-    SUPABASE_SECRET_KEY: z.string().min(1),
+  db: z.object({
+    // Pooled connection string, added by the Vercel Neon integration.
+    DATABASE_URL: z.string().min(1),
+  }),
+  auth: z.object({
+    BETTER_AUTH_SECRET: z.string().min(32),
+    BETTER_AUTH_URL: z.url(),
+    GOOGLE_CLIENT_ID: z.string().min(1),
+    GOOGLE_CLIENT_SECRET: z.string().min(1),
+  }),
+  email: z.object({
+    RESEND_API_KEY: z.string().min(1),
+    EMAIL_FROM: z.string().min(1).default("Lens <no-reply@talentmuscle.com>"),
   }),
   groq: z.object({
     GROQ_API_KEY: z.string().min(1),
@@ -28,7 +37,6 @@ const groups = {
     TURNSTILE_SECRET_KEY: z.string().min(1),
   }),
   app: z.object({
-    NEXT_PUBLIC_SITE_URL: z.url().default("http://localhost:3000"),
     IP_HASH_SALT: z.string().min(16),
   }),
 } as const;
@@ -46,4 +54,9 @@ export function env<K extends keyof Groups>(group: K): z.infer<Groups[K]> {
     cache.set(group, result.data);
   }
   return cache.get(group) as z.infer<Groups[K]>;
+}
+
+/** True when every variable in the group is set, without throwing. */
+export function hasEnv(group: keyof Groups): boolean {
+  return groups[group].safeParse(process.env).success;
 }

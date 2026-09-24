@@ -2,7 +2,7 @@
 
 import { FileText, Upload } from "lucide-react";
 import { useRef, useState } from "react";
-import { ACCEPT_ATTRIBUTE, checkResumeFile } from "@/lib/resume-file";
+import { ACCEPT_ATTRIBUTE, checkResumeFile, MAX_RESUME_MB } from "@/lib/resume-file";
 
 /**
  * Resume picker with drag and drop. Phase 2 posts the file to /api/upload.
@@ -63,7 +63,7 @@ export function ResumeDropzone() {
           <>
             <p className="ef-subhead">Drop your resume here</p>
             <p className="ef-small" style={{ color: "var(--text-secondary)" }}>
-              PDF or DOCX, up to 5 MB. Or click to browse.
+              PDF or DOCX, up to {MAX_RESUME_MB} MB. Or click to browse.
             </p>
           </>
         )}

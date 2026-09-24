@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { checkResumeFile, MAX_RESUME_BYTES } from "./resume-file";
 
 describe("checkResumeFile", () => {
-  it("accepts a PDF under 5 MB", () => {
+  it("accepts a PDF under 4 MB", () => {
     expect(checkResumeFile({ name: "cv.pdf", type: "application/pdf", size: 1000 })).toBeNull();
   });
 
@@ -14,10 +14,10 @@ describe("checkResumeFile", () => {
     expect(checkResumeFile({ name: "cv.png", type: "image/png", size: 1000 })).toMatch(/PDF or DOCX/);
   });
 
-  it("rejects files over 5 MB", () => {
+  it("rejects files over 4 MB", () => {
     expect(
       checkResumeFile({ name: "cv.pdf", type: "application/pdf", size: MAX_RESUME_BYTES + 1 }),
-    ).toMatch(/over 5 MB/);
+    ).toMatch(/over 4 MB/);
   });
 
   it("rejects empty files", () => {

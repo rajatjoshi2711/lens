@@ -1,4 +1,6 @@
-export const MAX_RESUME_BYTES = 5 * 1024 * 1024;
+// Vercel functions reject request bodies over 4.5 MB, so stay safely below it.
+export const MAX_RESUME_MB = 4;
+export const MAX_RESUME_BYTES = MAX_RESUME_MB * 1024 * 1024;
 
 export const ACCEPTED_RESUME_TYPES: Record<string, string> = {
   "application/pdf": "pdf",
@@ -13,6 +15,6 @@ export function checkResumeFile(file: { name: string; type: string; size: number
   const typeOk = file.type in ACCEPTED_RESUME_TYPES || ext === "pdf" || ext === "docx";
   if (!typeOk) return "Upload a PDF or DOCX file.";
   if (file.size === 0) return "This file is empty.";
-  if (file.size > MAX_RESUME_BYTES) return "This file is over 5 MB. Try a smaller export.";
+  if (file.size > MAX_RESUME_BYTES) return `This file is over ${MAX_RESUME_MB} MB. Try a smaller export.`;
   return null;
 }
