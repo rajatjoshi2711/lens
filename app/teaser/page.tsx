@@ -3,10 +3,12 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 import { ScoreRing } from "@/components/ScoreRing";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { CLAIM_COOKIE, hashClaimToken } from "@/lib/request-meta";
+import { getSessionUser } from "@/lib/session";
 import type { CheckStatus } from "@/lib/teaser";
 import { findUploadByClaimHash } from "@/lib/uploads";
 
@@ -33,11 +35,14 @@ function verdict(score: number): string {
   return "Some important gaps. Fixing them will make a big difference.";
 }
 
-export default async function TeaserPage() {
+export default async function TeaserPage({ searchParams }: PageProps<"/teaser">) {
+  const [{ signin }, user] = await Promise.all([searchParams, getSessionUser()]);
   const token = (await cookies()).get(CLAIM_COOKIE)?.value;
-  if (!token) redirect("/");
+  // Signed-in candidates whose upload is already linked belong on their report.
+  if (!token) redirect(user ? "/report" : "/");
   const upload = await findUploadByClaimHash(hashClaimToken(token));
-  if (!upload) redirect("/");
+  if (!upload) redirect(user ? "/report" : "/");
+  const signinFailed = signin === "failed";
 
   const teaser = upload.teaser;
   const order: CheckStatus[] = ["fail", "warn", "pass"];
@@ -139,10 +144,19 @@ export default async function TeaserPage() {
                   {upload.target_role ? `Advice tailored to ${upload.target_role} roles` : "Advice tailored to your target role"}
                 </li>
               </ul>
-              <button type="button" className="tm-btn tm-btn-primary tm-btn-lg tm-btn-block is-elevated" disabled>
-                Continue with Google
-              </button>
-              <p className="tm-notice">Google sign-in is not connected yet.</p>
+              {signinFailed && (
+                <p className="teaser-banner" role="alert">
+                  <TriangleAlert size={16} strokeWidth={1.5} aria-hidden="true" />
+                  Google sign-in didn&apos;t finish. Try again, and pick the account you want the report sent to.
+                </p>
+              )}
+              {user ? (
+                <a href="/claim" className="tm-btn tm-btn-primary tm-btn-lg tm-btn-block is-elevated">
+                  See my report
+                </a>
+              ) : (
+                <GoogleSignInButton />
+              )}
               <p className="consent">One free report per person. We only use your Google name and email.</p>
               <Link href="/" className="tm-btn tm-btn-link" style={{ alignSelf: "center" }}>
                 Upload a different resume

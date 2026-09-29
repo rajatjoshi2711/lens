@@ -47,6 +47,9 @@ Free plan notes: compute pauses after about 5 minutes idle, and the first reques
    - Authorized JavaScript origins: `http://localhost:3000`, `https://<your-domain>`
    - Authorized redirect URIs: `http://localhost:3000/api/auth/callback/google`, `https://<your-domain>/api/auth/callback/google`
 3. Copy the client ID and secret into `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
+4. Test it: upload a resume, click **Continue with Google** on the score page, and you should land on `/report` with the resume linked.
+
+Note: Google only redirects to URIs you listed, and Lens builds the redirect from `BETTER_AUTH_URL`. Sign-in therefore works on your production domain and localhost, not on Vercel preview URLs, unless you add a preview domain to both the Google client and `BETTER_AUTH_URL` for the Preview environment.
 
 ## 5. Resend (admin invites and password resets)
 

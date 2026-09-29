@@ -133,6 +133,39 @@ export async function pendingStorageIds(limit: number): Promise<string[]> {
   return rows.map((r) => r.upload_id);
 }
 
+/**
+ * Links the upload behind a claim cookie to a signed-in candidate. An upload
+ * already linked to someone else is never reassigned. Returns the upload id,
+ * or null when there is nothing to claim.
+ */
+export async function claimUpload(
+  claimTokenHash: string,
+  user: { id: string; name: string; email: string },
+): Promise<string | null> {
+  const { rows } = await getPool().query<{ id: string }>(
+    `update uploads
+        set user_id = $2, candidate_name = $3, candidate_email = $4,
+            claimed_at = coalesce(claimed_at, now())
+      where claim_token_hash = $1 and (user_id is null or user_id = $2)
+      returning id`,
+    [claimTokenHash, user.id, user.name, user.email.toLowerCase()],
+  );
+  return rows[0]?.id ?? null;
+}
+
+/** The candidate's most recent linked upload, used for their report. */
+export async function latestUploadForUser(userId: string): Promise<UploadSummary | null> {
+  const { rows } = await getPool().query<UploadSummary & { teaser_json: Teaser | null }>(
+    `select id, original_filename, teaser_json, target_role, created_at
+       from uploads where user_id = $1
+      order by claimed_at desc nulls last, created_at desc
+      limit 1`,
+    [userId],
+  );
+  const r = rows[0];
+  return r ? { ...r, teaser: r.teaser_json } : null;
+}
+
 export type UploadSummary = {
   id: string;
   original_filename: string;

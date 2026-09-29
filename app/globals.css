@@ -812,3 +812,30 @@ main {
     padding: var(--space-6);
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Account nav and report
+   --------------------------------------------------------------------------- */
+.header-account {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+.report-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+.report-file {
+  font-family: var(--font-mono);
+  font-size: var(--text-body-md);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .header-account .tm-btn {
+    padding: 0 var(--space-3);
+  }
+}

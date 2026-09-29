@@ -31,6 +31,7 @@ Open http://localhost:3000. The landing page runs without any keys; features tha
 - `lib/` shared logic: `env.ts`, `db.ts` (pg pool), `auth.ts`, `email.ts`, `admin-accounts.ts`, `parse.ts` (PDF/DOCX text), `teaser.ts` (free checks), `uploads.ts`, `sharepoint.ts`, `turnstile.ts`
 - `app/api/auth/[...all]/` Better Auth endpoints
 - `app/api/upload/` resume upload; `app/teaser/` free score page
+- `app/claim/` links the upload to the candidate after Google sign-in; `app/report/` the signed-in report page
 - `app/api/cron/sharepoint-retry/` daily retry for SharePoint copies (`vercel.json`)
 - `db/migrations/` database schema
 - `scripts/` migration runner and admin seed
