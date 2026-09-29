@@ -4,7 +4,7 @@
  */
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import { Pool } from "@neondatabase/serverless";
+import { Pool } from "pg";
 
 const connectionString = process.env.DATABASE_URL_UNPOOLED ?? process.env.DATABASE_URL;
 if (!connectionString) {

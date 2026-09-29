@@ -12,7 +12,9 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 1. https://vercel.com > **Add New > Project** > import `rajatjoshi2711/lens`. Keep the Next.js defaults and deploy.
 2. **Settings > Functions > Function Region**: match your Neon region (Mumbai `bom1` or Singapore `sin1`).
-3. Note: the Hobby plan is for non-commercial use. Move to Pro before launch.
+3. Add `CRON_SECRET` (random value) and `IP_HASH_SALT` (random value) under **Settings > Environment Variables**.
+4. `vercel.json` schedules a daily job that retries any resume not yet copied to SharePoint. Hobby allows daily crons only; on Pro you can change the schedule to hourly (`0 * * * *`).
+5. Note: the Hobby plan is for non-commercial use. Move to Pro before launch.
 
 ## 2. Neon Postgres (database)
 
@@ -76,7 +78,8 @@ Needs a Microsoft 365 admin for the Talent Muscle tenant.
 
 1. https://dash.cloudflare.com > **Turnstile > Add widget**, mode *Invisible* (or *Managed*).
 2. Hostnames: `localhost` and your production domain.
-3. Copy the site key and secret key.
+3. Copy the site key and secret key into `NEXT_PUBLIC_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY`.
+4. Production rejects uploads when these are missing. Locally the check is skipped, or use Cloudflare's always-pass test keys listed in `.env.example`.
 
 ## 8. Groq (AI)
 

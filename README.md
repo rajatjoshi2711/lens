@@ -28,8 +28,10 @@ Open http://localhost:3000. The landing page runs without any keys; features tha
 
 - `app/` pages and route handlers
 - `components/` UI components
-- `lib/` shared logic (`env.ts`, `db.ts`, `auth.ts`, `email.ts`, `admin-accounts.ts`, validation helpers)
+- `lib/` shared logic: `env.ts`, `db.ts` (pg pool), `auth.ts`, `email.ts`, `admin-accounts.ts`, `parse.ts` (PDF/DOCX text), `teaser.ts` (free checks), `uploads.ts`, `sharepoint.ts`, `turnstile.ts`
 - `app/api/auth/[...all]/` Better Auth endpoints
+- `app/api/upload/` resume upload; `app/teaser/` free score page
+- `app/api/cron/sharepoint-retry/` daily retry for SharePoint copies (`vercel.json`)
 - `db/migrations/` database schema
 - `scripts/` migration runner and admin seed
 - `styles/talent-muscle.css` design tokens
