@@ -172,11 +172,10 @@ body {
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  height: 76px;
+  height: 84px;
 }
 .logo-button {
   display: inline-flex;
-  margin-left: -10px;
   padding: 0;
   background: none;
   border: none;
@@ -188,29 +187,10 @@ body {
   outline-offset: 0;
   border-radius: var(--radius-sm);
 }
-.logo-lockup {
-  display: inline-flex;
-  padding: 8px 10px;
-}
-/* 50px tall keeps the lockup at 142px wide, above the 140px minimum. */
-.logo-lockup img {
+.logo-lens {
   display: block;
-  height: 50px;
+  height: 64px;
   width: auto;
-}
-.product-name {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-4);
-  font: var(--weight-extrabold) 20px/1 var(--font-display);
-  letter-spacing: var(--tracking-heading);
-  color: var(--text-brand);
-}
-.product-name::before {
-  content: "";
-  width: 1px;
-  height: 28px;
-  background: var(--border-default);
 }
 
 /* ---------------------------------------------------------------------------
@@ -467,6 +447,11 @@ main {
 .site-footer a {
   color: inherit;
 }
+.logo-tm {
+  display: block;
+  height: 50px;
+  width: auto;
+}
 
 /* ---------------------------------------------------------------------------
    Prose pages (privacy)
@@ -570,12 +555,8 @@ main {
     height: 68px;
     gap: var(--space-3);
   }
-  .product-name {
-    gap: var(--space-3);
-    font-size: 18px;
-  }
-  .product-name::before {
-    height: 22px;
+  .logo-lens {
+    height: 54px;
   }
   .hero-wrap {
     padding-top: var(--space-4);

@@ -14,8 +14,8 @@ type LogoProps = {
 };
 
 /**
- * The supplied Talent Muscle lockup (raster, includes "An EmergeFlow Company").
- * Never recolour, stretch, crop, or redraw it.
+ * The Lens by Talent Muscle lockup (raster). Never recolour, stretch, or redraw it.
+ * Clicking it returns home; 8 rapid clicks open the admin sign-in instead.
  */
 export function Logo({ onSecretTrigger }: LogoProps) {
   const burst = useRef(createClickBurst(ADMIN_CLICK_COUNT, ADMIN_CLICK_WINDOW_MS));
@@ -24,20 +24,20 @@ export function Logo({ onSecretTrigger }: LogoProps) {
     <button
       type="button"
       className="logo-button"
-      aria-label="Talent Muscle, an EmergeFlow company"
+      aria-label="Lens by Talent Muscle"
       onClick={() => {
         if (burst.current.click(Date.now())) onSecretTrigger?.();
       }}
     >
-      <span className="logo-lockup">
-        <Image
-          src="/brand/logo-horizontal.png"
-          alt=""
-          width={1319}
-          height={465}
-          priority
-        />
-      </span>
+      <Image
+        src="/brand/lens-logo.png"
+        alt=""
+        width={665}
+        height={320}
+        className="logo-lens"
+        sizes="140px"
+        loading="eager"
+      />
     </button>
   );
 }

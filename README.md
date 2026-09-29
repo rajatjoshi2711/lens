@@ -40,5 +40,6 @@ Open http://localhost:3000. The landing page runs without any keys; features tha
 ## Brand notes
 
 - Orange (`--surface-accent`) is for actions only; blue carries structure.
-- The header lockup must stay at least 140px wide (50px tall).
+- Header: the Lens by Talent Muscle lockup (`public/brand/lens-logo.png`). Footer: the Talent Muscle parent lockup, kept at its 140px minimum width.
+- Favicons live in `app/` (`icon.png`, `apple-icon.png`, `favicon.ico`), generated from the Lens icon with a transparent background.
 - Sora and Manrope stand in for the unsupplied brand fonts; Lucide stands in for an unsupplied icon set.
