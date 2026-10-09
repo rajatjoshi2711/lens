@@ -10,7 +10,7 @@ import {
 } from "@/lib/request-meta";
 import { MAX_RESUME_BYTES, MAX_RESUME_MB } from "@/lib/resume-file";
 import { analyzeResume } from "@/lib/teaser";
-import { verifyTurnstile } from "@/lib/turnstile";
+import { turnstileFailure, verifyTurnstile } from "@/lib/turnstile";
 import { createUpload, isRateLimited, storeInSharePoint } from "@/lib/uploads";
 
 export const maxDuration = 60;
@@ -31,8 +31,10 @@ export async function POST(request: NextRequest) {
   const targetRole = String(form.get("targetRole") ?? "").trim().slice(0, 120) || null;
   const ip = clientIp(request.headers);
 
-  if (!(await verifyTurnstile(String(form.get("cf-turnstile-response") ?? "") || null, ip))) {
-    return fail(403, "We couldn't confirm you're not a bot. Refresh the page and try again.");
+  const check = await verifyTurnstile(String(form.get("cf-turnstile-response") ?? "") || null, ip);
+  if (!check.ok) {
+    const { status, message } = turnstileFailure(check);
+    return fail(status, message);
   }
 
   if (!(file instanceof File) || file.size === 0) return fail(400, "Choose a resume file to upload.");

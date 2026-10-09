@@ -3,9 +3,9 @@
 import { CircleAlert, FileText, Upload } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Script from "next/script";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { ACCEPT_ATTRIBUTE, checkResumeFile, MAX_RESUME_MB } from "@/lib/resume-file";
+import { type TurnstileHandle, TurnstileWidget } from "./TurnstileWidget";
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
@@ -20,6 +20,10 @@ export function ResumeDropzone() {
   const [error, setError] = useState<string | null>(null);
   const [dragging, setDragging] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const turnstile = useRef<TurnstileHandle>(null);
+  const [botToken, setBotToken] = useState<string | null>(null);
+  const [botError, setBotError] = useState<string | null>(null);
+  const onBotError = useCallback((m: string | null) => setBotError(m), []);
 
   function pick(f: File | undefined) {
     if (!f) return;
@@ -33,9 +37,12 @@ export function ResumeDropzone() {
     if (!file || submitting) return;
     const data = new FormData(e.currentTarget);
     data.set("file", file);
-    if (TURNSTILE_SITE_KEY && !data.get("cf-turnstile-response")) {
-      setError("Still checking your browser. Try again in a moment.");
-      return;
+    if (TURNSTILE_SITE_KEY) {
+      if (!botToken) {
+        setError(botError ?? "Still checking your browser. Try again in a moment.");
+        return;
+      }
+      data.set("cf-turnstile-response", botToken);
     }
 
     setSubmitting(true);
@@ -45,8 +52,8 @@ export function ResumeDropzone() {
       const json = (await res.json().catch(() => null)) as { ok: boolean; error?: string } | null;
       if (!res.ok || !json?.ok) {
         setError(json?.error ?? "Something went wrong on our side. Try again in a minute.");
-        // Turnstile tokens are single use.
-        (window as { turnstile?: { reset: () => void } }).turnstile?.reset();
+        // Turnstile tokens are single use; get a fresh one for the retry.
+        turnstile.current?.reset();
         setSubmitting(false);
         return;
       }
@@ -137,10 +144,13 @@ export function ResumeDropzone() {
       </div>
 
       {TURNSTILE_SITE_KEY && (
-        <>
-          <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
-          <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-appearance="interaction-only" />
-        </>
+        <TurnstileWidget ref={turnstile} siteKey={TURNSTILE_SITE_KEY} onToken={setBotToken} onError={onBotError} />
+      )}
+      {botError && !error && (
+        <p className="dropzone-error" role="alert">
+          <CircleAlert size={16} strokeWidth={1.5} aria-hidden="true" />
+          {botError}
+        </p>
       )}
 
       <button

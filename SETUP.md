@@ -84,6 +84,18 @@ Needs a Microsoft 365 admin for the Talent Muscle tenant.
 3. Copy the site key and secret key into `NEXT_PUBLIC_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY`.
 4. Production rejects uploads when these are missing. Locally the check is skipped, or use Cloudflare's always-pass test keys listed in `.env.example`.
 
+### Troubleshooting uploads
+
+Each Turnstile failure writes a `[turnstile]` line to the Vercel function logs (**Project > Logs**, filter on `/api/upload`). Match the line to the fix:
+
+| Log line | Candidate sees | Fix |
+| --- | --- | --- |
+| `...are not set. Uploads are refused in production...` | "Uploads are paused for a moment..." | Add **both** `NEXT_PUBLIC_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` for Production, then **redeploy**. |
+| `Upload arrived without a token` | "Your browser check didn't finish..." | The site key was added after the last build. It is baked in at build time, so **redeploy**. |
+| `Token rejected: invalid-input-secret` | "We couldn't confirm you're not a bot..." | The secret key is wrong. Copy it again from Cloudflare. |
+| `Token rejected: invalid-input-response` | "We couldn't confirm you're not a bot..." | The site key and secret key come from different widgets. Use a matching pair. |
+| Browser console: `widget error 110200` | "We couldn't run the browser check..." | Your domain is not on the widget's hostname list. Add it in Cloudflare (**Turnstile > widget > Hostnames**). |
+
 ## 8. Groq (AI)
 
 1. https://console.groq.com > **API Keys > Create**.

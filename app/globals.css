@@ -839,3 +839,11 @@ main {
     padding: 0 var(--space-3);
   }
 }
+
+/* Turnstile stays collapsed unless Cloudflare needs an interaction. */
+.turnstile-slot:empty {
+  display: none;
+}
+.turnstile-slot iframe {
+  max-width: 100%;
+}
